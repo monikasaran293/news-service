@@ -7,11 +7,12 @@ const apiKey ='12be55ec52ff405d82258e4dbfe4fba4'
 newsRouter.get('/', async(req, res)=> {
     console.log("news api")
     try {
-        const url = `https://newsapi.org/v2/top-headlines?&apiKey=${apiKey}`
+        const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`
         const newsApi = await axios.get(url)
         res.send(newsApi.data)
     } catch (e) {
         console.error(e.message);
+        res.send(e)
     }
 })
 
@@ -33,7 +34,8 @@ newsRouter.get('/search', async(req, res)=> {
         const newsApi = await axios.get(url, payload)
         res.send(newsApi.data)
     } catch (e) {
-        console.error(e.message);
+        console.error(e.message)
+        res.send(e)
     }
 })
 
