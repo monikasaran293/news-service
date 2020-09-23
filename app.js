@@ -3,10 +3,22 @@ const express = require('express')
 const app = express()
 
 //routes
-const newsRouter  = require('./routes/news')
-console.log(newsRouter);
+const swapiRouter  = require('./routes/swapi')
 
-app.use('/', newsRouter)
+app.use((req, res, next) =>{
+    const allowedOrigins = ['http://localhost:3000']
+    const origin = req.headers.origin
+    if (allowedOrigins.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin)
+    }
+    res.header('Access-Control-Allow-Methods', 'GET, OPTIONS')
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+    res.header('Access-Control-Allow-Credentials', true)
+    next()
+})
 
-// listen on port 5000
-app.listen(5000, () => console.log("Listening on port 5000"))
+app.use('/', swapiRouter)
+
+// listen on port 5002
+const port = 5002
+app.listen(port, () => console.log(`Listening on port ${port}`))
